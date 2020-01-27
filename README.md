@@ -1,10 +1,13 @@
 # Hangman - A classic word game
 
-#To compile
+#To compile:
+
 make
 
-#To clean
+#To clean:
+
 make clean
 
-#To run
+#To run:
+
 ./bin/hangman
