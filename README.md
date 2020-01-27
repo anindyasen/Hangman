@@ -19,3 +19,4 @@ make clean
 2. GAME OVER after 6 wrong guess
 3. Display graphics
 4. Write apis for reading file for new words and store it in data structure
+5. Randomize function to selec the word randomly from the pool
