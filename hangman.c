@@ -14,8 +14,16 @@ word_t words[] = {
    WORD_LIST
 };
 
-void display(int len){
+void display(uint8_t wg_cnt, int len){
     int i = 0;
+    printf("\033[H\033[J ┏━━━┓\n");
+    printf(" ┃   │\n");
+    printf(" ┃   %c\n",   wg_cnt<1?' ':'O');
+    printf(" ┃  %c%s%c\n",wg_cnt<3?' ':'/', wg_cnt<2?" ":"│", wg_cnt<4?' ':'\\');
+    printf(" ┃  %c %c\n", wg_cnt<5?' ':'/',               wg_cnt<6?' ':'\\');
+    printf(" ┃\n");
+    printf("┏┻━━━━━━━┓\n┃   %d    ┗━┓\n┗━━━━━━━━━━┛\n",(WRONG_GUESS_CNT-wg_cnt));
+
     for(i=0; i<len;i++) {
         if(final_word[i] == 0){
             printf("_");
@@ -40,9 +48,9 @@ void display(const Game *game, const char *guess){
 }
 #endif
 int main(){
-    uint8_t c,i;
+    uint8_t c,i, wrg_guess_cnt = 0;
     uint32_t len = 0, idx = 0;
-    printf("%s\n", words[0].string);
+    printf("%s\n", words[1].string);
 
     //Initialization
     //hash table
@@ -54,13 +62,17 @@ int main(){
     memset(guessed_letter, 0, (sizeof(uint8_t)*26));
     memset(final_word, 0, (sizeof(uint8_t)*26));
 
-    len = strlen(words[0].string);
+    len = strlen(words[1].string);
 
     for(i=0; i<len; i++) {
-        hash_insert(words[0].string[i], i);
+        hash_insert(words[1].string[i], i);
     }
 
-    printf("GAME_START\n");
+    wrg_guess_cnt = WRONG_GUESS_CNT;
+
+    printf("\033[H\033[J \n");
+    printf("GAME START\n");
+    display(0, strlen(words[1].string));
     while(len != 0){
         printf("Guess the word\n");
         c = getc(stdin);
@@ -84,7 +96,17 @@ int main(){
               len--;
             }
         }
-        display(strlen(words[0].string));
+        else {
+            printf("WRONG GUESS...\n");
+            if (wrg_guess_cnt != 0) {
+                wrg_guess_cnt--;
+            }
+            else {
+                printf("GAME OVER\n");
+                return 0;
+            }
+        }
+        display((WRONG_GUESS_CNT - wrg_guess_cnt),strlen(words[1].string));
     }
 #if 0
     hash_insert(ht, 'C', 0);

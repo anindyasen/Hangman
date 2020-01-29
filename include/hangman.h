@@ -11,6 +11,8 @@
 #define TRUE 1
 #define FALSE 0
 
+#define WRONG_GUESS_CNT    6
+
 //Global Variables
 
 //Hash Table

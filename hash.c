@@ -11,7 +11,7 @@ int list_add_start(index_list_t** head, int data){
         return -1;
     }
     newnode->idx = data;
-    newnode->next = *(index_list_t**)head;
+    newnode->next = *head;
     *head = newnode;
     return 0;
 }

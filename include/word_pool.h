@@ -7,6 +7,7 @@ typedef struct word_pool_{
 
 #define WORD_LIST \
     WORD_LIST_FILL("COMPUTER"),\
+    WORD_LIST_FILL("COOL"),\
 
 
 #endif //__WORD_POOL_H__
