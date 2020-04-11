@@ -7,6 +7,7 @@ MODULE = hangman
 #path of binary
 BIN_PATH = ./bin
 
+
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
@@ -29,3 +30,5 @@ $(MODULE): $(OBJECTS)
 clean:
 	$(RM) $(BIN_PATH)/$(MODULE)
 	$(RM) *.o
+
+$(shell   mkdir -p $(BIN_PATH))
