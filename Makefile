@@ -5,7 +5,8 @@ CC = gcc
 MODULE = hangman
 
 #path of binary
-BIN_PATH = ./bin
+BIN_PATH = $(PWD)/bin
+SRC_PATH = $(PWD)
 
 
 # compiler flags:
@@ -14,21 +15,24 @@ BIN_PATH = ./bin
 CFLAGS  = -g -Wall $(INCLUDES)
 
 #object files are part of the final program
-OBJECTS = hash.o \
-		  hangman.o
+SOURCES     := $(shell find $(SRC_PATH) -type f -name "*.c")
+OBJECTS     := $(patsubst $(SRC_PATH)/%,$(BIN_PATH)/%,$(SOURCES:.c=.o))
 
 
 # define any directories containing header files other than /usr/include
 INCLUDES = -Iinclude/
 
-all: $(MODULE)
+all: $(BIN_PATH) $(MODULE)
 
 $(MODULE): $(OBJECTS)
 	$(CC) -o $(BIN_PATH)/$@ $^ $(CFLAGS)
-#	$(CC) $(CFLAGS) $(INCLUDES) -o $(BIN_PATH)/$(MODULE) $(OBJ)
+	@echo "Build Successful"
+
+$(BIN_PATH)/%.o: $(SRC_PATH)/%.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) $(BIN_PATH)/$(MODULE)
-	$(RM) *.o
+	$(RM) -r $(BIN_PATH)
 
-$(shell   mkdir -p $(BIN_PATH))
+$(BIN_PATH):
+	mkdir -p $(BIN_PATH)
