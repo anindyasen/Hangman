@@ -1,3 +1,12 @@
+/*
+ * Hash Table: Implemented as a array of linklist of size 21 (total no. of 
+ * alphabet). Each location of the array consists of linklist denoting the 
+ * index of that alphabet in the selected word.
+ * Eg. if at location 0 of the array there is a linked list like
+ * 1-->5-->8. It means that, in the selected word 'a'(idx 0 of array) is
+ * present in location 1 5 8 in the selected word
+ * */
+
 #include<ctype.h>
 
 #include "hangman.h"

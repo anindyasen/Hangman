@@ -14,6 +14,14 @@ word_t words[] = {
    WORD_LIST
 };
 
+//generate random index to select word
+int gen_index(int low, int high) 
+{ 
+    srand(time(0));
+    
+    return ((rand() % (high - low + 1)) + low); 
+} 
+
 void display(uint8_t wg_cnt, int len){
     int i = 0;
     printf("\033[H\033[J ┏━━━┓\n");
@@ -26,9 +34,9 @@ void display(uint8_t wg_cnt, int len){
 
     for(i=0; i<len;i++) {
         if(final_word[i] == 0){
-            printf("_");
+            printf("_ ");
         }else {
-            printf("%c",final_word[i]);
+            printf("%c ",final_word[i]);
         }
     }
     printf("\n");
@@ -49,8 +57,7 @@ void display(const Game *game, const char *guess){
 #endif
 int main(){
     uint8_t c,i, wrg_guess_cnt = 0;
-    uint32_t len = 0, idx = 0;
-    printf("%s\n", words[1].string);
+    uint32_t len = 0, idx = 0, gidx = 0;
 
     //Initialization
     //hash table
@@ -61,18 +68,21 @@ int main(){
     //initialized with 0
     memset(guessed_letter, 0, (sizeof(uint8_t)*26));
     memset(final_word, 0, (sizeof(uint8_t)*26));
-
-    len = strlen(words[1].string);
+    
+    //randomly generating index to select word
+    gidx = gen_index(0/*low*/,9/*high*/);
+    printf("%s\n", words[gidx].string);
+    len = strlen(words[gidx].string);
 
     for(i=0; i<len; i++) {
-        hash_insert(words[1].string[i], i);
+        hash_insert(words[gidx].string[i], i);
     }
 
     wrg_guess_cnt = WRONG_GUESS_CNT;
 
     printf("\033[H\033[J \n");
     printf("GAME START\n");
-    display(0, strlen(words[1].string));
+    display(0, strlen(words[gidx].string));
     while(len != 0){
         printf("Guess the word\n");
         c = getc(stdin);
@@ -106,7 +116,7 @@ int main(){
                 return 0;
             }
         }
-        display((WRONG_GUESS_CNT - wrg_guess_cnt),strlen(words[1].string));
+        display((WRONG_GUESS_CNT - wrg_guess_cnt),strlen(words[gidx].string));
     }
 #if 0
     hash_insert(ht, 'C', 0);
